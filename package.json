@@ -1,0 +1,39 @@
+{
+  "name": "js-html-builder",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register --colors",
+    "gulp": "gulp",
+    "eslint": "eslint",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pavelzamyatin/js-html-builder.git"
+  },
+  "author": "Pavel Zamyatin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pavelzamyatin/js-html-builder/issues"
+  },
+  "homepage": "https://github.com/pavelzamyatin/js-html-builder#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-preset-latest": "*",
+    "babel-preset-stage-0": "*",
+    "eslint": "*",
+    "babel-eslint": "*",
+    "babel-plugin-syntax-flow": "*",
+    "babel-plugin-transform-flow-strip-types": "*",
+    "eslint-config-airbnb": "*",
+    "eslint-plugin-import": "^1.8.0",
+    "eslint-plugin-flowtype": "*"
+  }
+}
