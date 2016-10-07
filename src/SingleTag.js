@@ -1,14 +1,10 @@
+import Node from '../src/Node';
 
-export default class SingleTag {
+export default class SingleTag extends Node {
   constructor(name, attributes = {}) {
-    this.name = name;
-    this.attributes = attributes;
+    super(name, attributes);
   }
-
   toString() {
-    const strAttributes = Object.keys(this.attributes).reduce((acc, key) =>
-        `${acc} ${key}="${this.attributes[key]}"`, '')
-
-    return `<${this.name}${strAttributes}>`
+    return `<${this.getName()}${this.getAttributesAsLine()}>`;
   }
 }

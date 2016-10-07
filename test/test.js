@@ -2,13 +2,12 @@ import assert from 'assert';
 import { describe, it } from 'mocha';
 
 import parse from '../src/index';
-import PairedTag from '../src/PairedTag';
-import SingleTag from '../src/SingleTag';
+import buildNode from '../src/buildNode';
 
 describe('HtmlBuilder', () => {
   it('#parse', () => {
     const data = ['html', [
-      ['head', [
+      ['meta', [
         ['title', 'hello, hexlet!'],
       ]],
       ['body', [
@@ -21,15 +20,15 @@ describe('HtmlBuilder', () => {
     ]];
 
     const ast = parse(data);
-    const expected = new PairedTag('html', {}, '', [
-      new PairedTag('head', {}, '', [
-        new PairedTag('title', {}, 'hello, hexlet!'),
+    const expected = buildNode('html', {}, '', [
+      buildNode('meta', {}, '', [
+        buildNode('title', {}, 'hello, hexlet!'),
       ]),
-      new PairedTag('body', {}, '', [
-        new PairedTag('h1', { class: 'header' }, 'html builder example'),
-        new PairedTag('div', {}, '', [
-          new PairedTag('span', {}, 'span text'),
-          new SingleTag('hr'),
+      buildNode('body', {}, '', [
+        buildNode('h1', { class: 'header' }, 'html builder example'),
+        buildNode('div', {}, '', [
+          buildNode('span', {}, 'span text'),
+          buildNode('hr'),
         ]),
       ]),
     ]);
@@ -39,7 +38,7 @@ describe('HtmlBuilder', () => {
 
   it('#toString', () => {
     const data = ['html', [
-      ['head', [
+      ['meta', [
         ['title', 'hello, hexlet!'],
       ]],
       ['body', [
@@ -53,7 +52,7 @@ describe('HtmlBuilder', () => {
     ]];
 
     const ast = parse(data);
-    const expected = `<html><head><title>hello, hexlet!</title></head><body><div class="separator"></div><h1 class="header">html builder example</h1><div><img class="image" href="#"><span>span text2</span></div></body></html>`;
+    const expected = `<html><meta><title>hello, hexlet!</title></meta><body><div class="separator"></div><h1 class="header">html builder example</h1><div><img class="image" href="#"><span>span text2</span></div></body></html>`;
     assert.equal(ast.toString(), expected);
   });
 });
