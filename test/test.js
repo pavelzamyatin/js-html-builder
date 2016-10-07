@@ -1,44 +1,59 @@
-
 import assert from 'assert';
-// import { describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 
-import { render, parse } from '../src/index';
+import parse from '../src/index';
+import PairedTag from '../src/PairedTag';
+import SingleTag from '../src/SingleTag';
 
 describe('HtmlBuilder', () => {
-  it('set 1', () => {
+  it('#parse', () => {
     const data = ['html', [
-      ['meta', [
+      ['head', [
         ['title', 'hello, hexlet!'],
       ]],
-      ['body', { class: 'container' }, [
+      ['body', [
         ['h1', { class: 'header' }, 'html builder example'],
         ['div', [
-          ['span', 'span text2'],
-          ['br'],
+          ['span', 'span text'],
+          ['hr'],
         ]],
       ]],
     ]];
 
-    const actual = render(parse(data));
-    const expected = `<html><meta><title>hello, hexlet!</title></meta><body class="container"><h1 class="header">html builder example</h1><div><span>span text2</span><br></div></body></html>`;
-    assert.equal(actual, expected);
+    const ast = parse(data);
+    const expected = new PairedTag('html', {}, '', [
+      new PairedTag('head', {}, '', [
+        new PairedTag('title', {}, 'hello, hexlet!'),
+      ]),
+      new PairedTag('body', {}, '', [
+        new PairedTag('h1', { class: 'header' }, 'html builder example'),
+        new PairedTag('div', {}, '', [
+          new PairedTag('span', {}, 'span text'),
+          new SingleTag('hr'),
+        ]),
+      ]),
+    ]);
+
+    assert.deepEqual(ast, expected);
   });
 
-  it('set 2', () => {
+  it('#toString', () => {
     const data = ['html', [
+      ['head', [
+        ['title', 'hello, hexlet!'],
+      ]],
       ['body', [
-        ['h2', { class: 'header' }, 'first header'],
-        ['img', { class: 'picture', src: 'smile.jpg' }],
+        ['div', { class: 'separator' }],
+        ['h1', { class: 'header' }, 'html builder example'],
         ['div', [
-          ['p', 'hello, world'],
-          ['p', 'good bye, world'],
-          ['a', { class: 'link', href: 'https://hexlet.io' }, 'hexlet.io'],
+          ['img', { class: 'image', href: '#' }],
+          ['span', 'span text2'],
         ]],
       ]],
     ]];
 
-    const actual = render(parse(data));
-    const expected = `<html><body><h2 class="header">first header</h2><img class="picture" src="smile.jpg"><div><p>hello, world</p><p>good bye, world</p><a class="link" href="https://hexlet.io">hexlet.io</a></div></body></html>`;
-    assert.equal(actual, expected);
+    const ast = parse(data);
+    const expected = `<html><head><title>hello, hexlet!</title></head><body><div class="separator"></div><h1 class="header">html builder example</h1><div><img class="image" href="#"><span>span text2</span></div></body></html>`;
+    assert.equal(ast.toString(), expected);
   });
 });
